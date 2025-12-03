@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Media Analytics Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'><rect width='32' height='32' rx='6' fill='%23231a1a'/><path d='M8 12L14 16L8 20V12Z' fill='%23FF0000'/><circle cx='22' cy='16' r='6' fill='%23E4405F'/><circle cx='22' cy='16' r='2' fill='white'/></svg>">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <i class="fab fa-youtube" style="color: #ff0000;"></i>
+      <i class="fab fa-instagram" style="color: #E4405F;"></i>
+      <h1>Social Media Tracker</h1>
+    </div>
+    <p class="subtitle">Real-time YouTube & Instagram Analytics via API Integration</p>
+    <!-- STATUS INFO -->
+    <div id="apiStatus" class="api-status"></div>
+  </header>
+
+  <div class="api-manager">
+    <div class="api-section youtube-section">
+      <div class="api-header">
+        <i class="fab fa-youtube"></i>
+        <h3>YouTube API</h3>
+      </div>
+      <div class="api-inputs">
+        <input type="password" id="ytApiKey" placeholder="YouTube API Key" />
+        <input type="text" id="ytOwnerName" placeholder="Owner Name" />
+        <button class="btn btn-primary" onclick="saveYouTubeAPI()">Save</button>
+      </div>
+      <div id="savedYouTubeAPIs" class="saved-apis"></div>
+    </div>
+    <div class="api-section apify-section">
+      <div class="api-header">
+        <i class="fab fa-instagram"></i>
+        <h3>Apify API</h3>
+      </div>
+      <div class="api-inputs">
+        <input type="password" id="apifyApiToken" placeholder="Apify Token" />
+        <input type="text" id="apifyOwnerName" placeholder="Owner Name" />
+        <button class="btn btn-primary" onclick="saveApifyAPI()">Save</button>
+      </div>
+      <div id="savedApifyAPIs" class="saved-apis"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2><i class="fas fa-plus"></i> Add Content to Track</h2>
+    </div>
+    <div class="input-group">
+      <label for="userName"><i class="fas fa-user"></i> Your Name <span style="color:red;">*</span></label>
+      <input type="text" id="userName" placeholder="Enter your name to track content">
+    </div>
+    <div class="platform-tabs">
+      <button class="platform-tab active" onclick="switchPlatform('youtube')"><i class="fab fa-youtube"></i> YouTube</button>
+      <button class="platform-tab" onclick="switchPlatform('instagram')"><i class="fab fa-instagram"></i> Instagram</button>
+    </div>
+    <!-- YOUTUBE FORM -->
+    <div id="youtube-form" class="platform-form active">
+      <div class="input-group">
+        <label for="youtubeUrl"><i class="fab fa-youtube"></i> YouTube URLs (one per line)</label>
+        <textarea id="youtubeUrl" rows="4" placeholder="Paste YouTube URLs here..."></textarea>
+        <div id="youtubeCounter" class="url-counter">0 URLs</div>
+      </div>
+      <div class="input-group">
+        <label for="youtubeTitle"><i class="fas fa-heading"></i> Video Title</label>
+        <input type="text" id="youtubeTitle" placeholder="Title will appear automatically" readonly />
+      </div>
+      <div class="input-group">
+        <label for="youtubeInterval"><i class="fas fa-clock"></i> Tracking Interval</label>
+        <select id="youtubeInterval">
+          <option value="86400000">Every 24 Hours</option>
+          <option value="43200000">Every 12 Hours</option>
+          <option value="21600000">Every 6 Hours</option>
+          <option value="18000000">Every 5 Hours</option>
+          <option value="10800000">Every 3 Hours</option>
+          <option value="7200000">Every 2 Hours</option>
+          <option value="3600000">Every Hour</option>
+          <option value="1800000">Every 30 Minutes</option>
+          <option value="900000">Every 15 Minutes</option>
+          <option value="300000">Every 5 Minutes</option>
+          <option value="120000">Every 2 Minutes</option>
+          <option value="60000">Every 1 Minute</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="addYouTubeContent()"><i class="fab fa-youtube"></i> Track YouTube Video(s)</button>
+    </div>
+    <!-- INSTAGRAM FORM -->
+    <div id="instagram-form" class="platform-form">
+      <div class="input-group">
+        <label for="instagramUrl"><i class="fab fa-instagram"></i> Instagram URLs (one per line)</label>
+        <textarea id="instagramUrl" rows="4" placeholder="Paste Instagram URLs here..."></textarea>
+        <div id="instagramCounter" class="url-counter">0 URLs</div>
+      </div>
+      <div class="input-group">
+        <label for="instagramTitle"><i class="fas fa-heading"></i> Post Title/Caption</label>
+        <input type="text" id="instagramTitle" placeholder="Title will appear automatically" readonly />
+      </div>
+      <div class="input-group">
+        <label for="instagramInterval"><i class="fas fa-clock"></i> Tracking Interval</label>
+        <select id="instagramInterval">
+          <option value="86400000">Every 24 Hours</option>
+          <option value="43200000">Every 12 Hours</option>
+          <option value="21600000">Every 6 Hours</option>
+          <option value="18000000">Every 5 Hours</option>
+          <option value="10800000">Every 3 Hours</option>
+          <option value="7200000">Every 2 Hours</option>
+          <option value="3600000">Every Hour</option>
+          <option value="1800000">Every 30 Minutes</option>
+          <option value="900000">Every 15 Minutes</option>
+          <option value="300000">Every 5 Minutes</option>
+          <option value="120000">Every 2 Minutes</option>
+          <option value="60000">Every 1 Minute</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="addInstagramContent()"><i class="fab fa-instagram"></i> Track Instagram Post(s)</button>
+    </div>
+  </div>
+
+  <!-- Add further UI elements for quotas and tracked items display as needed -->
+
+</div>
+<script src="script.js"></script>
+</body>
+</html>
